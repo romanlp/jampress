@@ -1,9 +1,23 @@
 <script context="module" lang="ts">
+    /** @type {import('@sveltejs/kit').Load} */
+    export async function load({ params, fetch, session, stuff }) {
+        const url = import.meta.env.VITE_BASE_URL + "/wp-json/wp/v2/posts?page=1&per_page=20&_embed=1";
+        const response = await fetch(url);
+
+        return {
+            status: response.status,
+            props: {
+                articles: response.ok && (await response.json()),
+            },
+        };
+    }
+
 	export const prerender = true;
 </script>
 
 <script lang="ts">
 	import Counter from '$lib/Counter.svelte';
+	export let articles: any;
 </script>
 
 <svelte:head>
@@ -18,13 +32,13 @@
 				<img src="svelte-welcome.png" alt="Welcome" />
 			</picture>
 		</div>
-
-		to your new<br />SvelteKit app
 	</h1>
 
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
+	{#each articles as article (article.id)}
+		<h3>{article.title.rendered}</h3>
+		<div class="content">{@html article.excerpt.rendered}</div>
+		<a href="blog/{article.slug}" class="readmore slide">Read more ⟶</a>
+	{/each}
 
 	<Counter />
 </section>
