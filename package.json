@@ -1,12 +1,14 @@
 {
-  "name": "jampress",
+  "name": "svelte-kit",
   "version": "0.0.1",
-  "private": true,
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build",
     "package": "svelte-kit package",
-    "preview": "svelte-kit preview"
+    "preview": "svelte-kit preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "eslint --ignore-path .gitignore ."
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "next",
