@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import logo from './svelte-logo.svg';
-	export let categories: any[];
+	export let categories = [];
+
+	$:  topLevelCategories = categories?.reduce(function(rv, x) {
+    		(rv[x.parent] = rv[x.parent.toString()] || []).push(x);
+    		return rv;
+  		}, {});
+
 </script>
 
 <header>
@@ -16,11 +22,17 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			{#each categories as categorie (categorie.id)}
+			{#each topLevelCategories['0'] as categorie (categorie.id)}
 				<li>
 					<a href={'/blog/' + categorie.slug}>
 						{categorie.name}
 					</a>
+
+					{#each topLevelCategories[categorie.id] ?? [] as subCat (subCat.id)}
+						<div>{subCat.name}</div>
+					{:else}
+						<div>No subcategories</div>
+					{/each}
 				</li>
 			{/each}
 			<li class:active={$page.url.pathname === '/'}><a sveltekit:prefetch href="/">Home</a></li>
