@@ -19,7 +19,7 @@
 
 <div>
     {#if article[0]}
-    <h1>{article[0].title.rendered}</h1>
+    <h1>{@html article[0].title.rendered}</h1>
     
     <div>{@html article[0].content.rendered}</div>
     {/if}

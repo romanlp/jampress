@@ -35,7 +35,7 @@
 	</h1>
 
 	{#each articles as article (article.id)}
-		<h3>{article.title.rendered}</h3>
+		<h3>{@html article.title.rendered}</h3>
 		<div class="content">{@html article.excerpt.rendered}</div>
 		<a href="blog/{article.slug}" class="readmore slide">Read more ⟶</a>
 	{/each}
