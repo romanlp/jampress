@@ -7,7 +7,10 @@
         return {
             status: response.status,
             props: {
-                articles: response.ok && (await response.json()),
+                articles: response.ok && (await response.json()).map(article => ({
+					title: article.title.rendered,
+					excerpt: article.excerpt.rendered
+				}))
             },
         };
     }
@@ -35,8 +38,8 @@
 	</h1>
 
 	{#each articles as article (article.id)}
-		<h3>{@html article.title.rendered}</h3>
-		<div class="content">{@html article.excerpt.rendered}</div>
+		<h3>{@html article.title}</h3>
+		<div class="content">{@html article.excerpt}</div>
 		<a href="blog/{article.slug}" class="readmore slide">Read more ⟶</a>
 	{/each}
 

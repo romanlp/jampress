@@ -7,7 +7,12 @@
         return {
             status: response.status,
             props: {
-                categories: response.ok && (await response.json()),
+                categories: response.ok && (await response.json()).map(category => ({
+					id: category.id,
+					name: category.name,
+					slug: category.slug,
+					parent: category.parent,
+				})),
             },
         };
     }
