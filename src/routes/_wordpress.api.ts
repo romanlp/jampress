@@ -9,14 +9,14 @@
 	guarantees are made. Don't use it to organise your life.)
 */
 
-const base =  import.meta.env.VITE_BASE_URL;
+const base = import.meta.env.VITE_BASE_URL;
 
-export function getBlogDetails() {
-	return fetch(`${base}/wp-json`, {
-		method: 'GET',
-	});
+export async function getBlogDetails() {
+	const response = await fetch(`${base}/wp-json`);
+	const data = (await response.json());
+	return { status: response.status, data };
 }
- 
+
 export async function getCategories() {
 	const response = await fetch(`${base}/wp-json/wp/v2/categories`);
 	const data = (await response.json()).map(category => ({
@@ -24,7 +24,7 @@ export async function getCategories() {
 		name: category.name,
 		slug: category.slug,
 		parent: category.parent,
-	}));	
+	}));
 	return { status: response.status, data };
 }
 

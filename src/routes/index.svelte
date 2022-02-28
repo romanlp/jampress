@@ -1,11 +1,14 @@
 <script context="module" lang="ts">
 	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ params, fetch, session, stuff }) {
+		const blogDetails = await getBlogDetails();
 		const { status, data } = await getPosts();
+console.log(blogDetails);
 
 		return {
 			status,
 			props: {
+				blogDetails: blogDetails.data,
 				articles: data,
 			},
 		};
@@ -16,23 +19,23 @@
 
 <script lang="ts">
 	import Counter from "$lib/Counter.svelte";
-	import { getPosts } from "./_wordpress.api";
+	import { getBlogDetails, getPosts } from "./_wordpress.api";
 	export let articles: any;
+	export let blogDetails: any;
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Home | {blogDetails?.name}</title>
 </svelte:head>
 
 <section>
 	<h1>
 		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
+			<div>{blogDetails?.name}</div>
+			<div>{blogDetails?.description}</div>
 		</div>
 	</h1>
+
 
 	{#each articles as article (article.id)}
 		<h3>{@html article.title}</h3>
@@ -61,13 +64,5 @@
 		width: 100%;
 		height: 0;
 		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
 	}
 </style>
