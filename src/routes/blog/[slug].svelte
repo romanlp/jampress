@@ -1,13 +1,14 @@
 <script context="module" lang="ts">
+    import { getPost } from "../_wordpress.api";
+
     /** @type {import('@sveltejs/kit').Load} */
     export async function load({ params, fetch, session, stuff }) {
-        const url = import.meta.env.VITE_BASE_URL + "/wp-json/wp/v2/posts?slug=" + params.slug;
-        const response = await fetch(url);
+        const { status, data } = await getPost(params.slug);
 
         return {
-            status: response.status,
+            status,
             props: {
-                article: response.ok && (await response.json()),
+                article: data,
             },
         };
     }
@@ -18,9 +19,9 @@
 </script>
 
 <div>
-    {#if article[0]}
-    <h1>{@html article[0].title.rendered}</h1>
-    
-    <div>{@html article[0].content.rendered}</div>
+    {#if article}
+        <h1>{@html article.title}</h1>
+
+        <div>{@html article.content}</div>
     {/if}
 </div>

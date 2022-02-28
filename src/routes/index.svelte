@@ -1,25 +1,22 @@
 <script context="module" lang="ts">
-    /** @type {import('@sveltejs/kit').Load} */
-    export async function load({ params, fetch, session, stuff }) {
-        const url = import.meta.env.VITE_BASE_URL + "/wp-json/wp/v2/posts?page=1&per_page=20&_embed=1";
-        const response = await fetch(url);
+	/** @type {import('@sveltejs/kit').Load} */
+	export async function load({ params, fetch, session, stuff }) {
+		const { status, data } = await getPosts();
 
-        return {
-            status: response.status,
-            props: {
-                articles: response.ok && (await response.json()).map(article => ({
-					title: article.title.rendered,
-					excerpt: article.excerpt.rendered
-				}))
-            },
-        };
-    }
+		return {
+			status,
+			props: {
+				articles: data,
+			},
+		};
+	}
 
 	export const prerender = true;
 </script>
 
 <script lang="ts">
-	import Counter from '$lib/Counter.svelte';
+	import Counter from "$lib/Counter.svelte";
+	import { getPosts } from "./_wordpress.api";
 	export let articles: any;
 </script>
 

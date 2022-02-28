@@ -2,7 +2,7 @@
     /** @type {import('@sveltejs/kit').Load} */
     export async function load({ params, fetch, session, stuff }) {
         const url = import.meta.env.VITE_BASE_URL + "/wp-json/wp/v2/categories";
-        const response = await fetch(url);
+        const response = await getCategories();
 		
         return {
             status: response.status,
@@ -22,7 +22,9 @@
 
 <script lang="ts">
 	import Header from '$lib/header/Header.svelte';
+	import { getCategories } from './_wordpress.api';
 	import '../app.css';
+
 	export let categories: any;
 </script>
 
