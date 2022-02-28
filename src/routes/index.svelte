@@ -3,8 +3,6 @@
 	export async function load({ params, fetch, session, stuff }) {
 		const blogDetails = await getBlogDetails();
 		const { status, data } = await getPosts();
-console.log(blogDetails);
-
 		return {
 			status,
 			props: {
@@ -34,7 +32,6 @@ console.log(blogDetails);
 			<div>{blogDetails?.description}</div>
 		</div>
 	</h1>
-
 
 	{#each articles as article (article.id)}
 		<h3>{@html article.title}</h3>
