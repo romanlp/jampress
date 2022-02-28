@@ -26,7 +26,7 @@
 			</li>
 
 			{#each topLevelCategories["0"] as categorie (categorie.id)}
-				<li class="menu">
+				<li class="menu" class:active={$page.url.pathname === "/blog/" + categorie.slug}>
 					<a href={"/blog/" + categorie.slug}>
 						{categorie.name}
 					</a>
