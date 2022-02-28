@@ -1,20 +1,14 @@
 <script context="module" lang="ts">
     /** @type {import('@sveltejs/kit').Load} */
     export async function load({ params, fetch, session, stuff }) {
-        const url = import.meta.env.VITE_BASE_URL + "/wp-json/wp/v2/categories";
-        const response = await getCategories();
+        const {status, data} = await getCategories();
 		
-        return {
-            status: response.status,
-            props: {
-                categories: response.ok && (await response.json()).map(category => ({
-					id: category.id,
-					name: category.name,
-					slug: category.slug,
-					parent: category.parent,
-				})),
-            },
-        };
+		return {
+			status,
+			props: {
+				categories: data,
+			},
+		};
     }
 
 	export const prerender = true;
@@ -25,7 +19,7 @@
 	import { getCategories } from './_wordpress.api';
 	import '../app.css';
 
-	export let categories: any;
+	export let categories = [];
 </script>
 
 <Header {categories} />

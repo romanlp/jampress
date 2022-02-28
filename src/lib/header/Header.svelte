@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import logo from './svelte-logo.svg';
+	import { page } from "$app/stores";
+	import logo from "./svelte-logo.svg";
 	export let categories = [];
 
-	$:  topLevelCategories = categories?.reduce(function(rv, x) {
-    		(rv[x.parent] = rv[x.parent.toString()] || []).push(x);
-    		return rv;
-  		}, {});
-
+	$: topLevelCategories = categories?.reduce((prev, cur) => {
+		(prev[cur.parent.toString()] = prev[cur.parent.toString()] || []).push(cur);
+		return prev;
+	}, {});
 </script>
 
 <header>
@@ -22,24 +21,36 @@
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
 		</svg>
 		<ul>
-			{#each topLevelCategories['0'] as categorie (categorie.id)}
-				<li>
-					<a href={'/blog/' + categorie.slug}>
+			<li class:active={$page.url.pathname === "/"}>
+				<a sveltekit:prefetch href="/">Home</a>
+			</li>
+
+			{#each topLevelCategories["0"] as categorie (categorie.id)}
+				<li class="menu">
+					<a href={"/blog/" + categorie.slug}>
 						{categorie.name}
 					</a>
 
-					{#each topLevelCategories[categorie.id] ?? [] as subCat (subCat.id)}
-						<div>{subCat.name}</div>
-					{:else}
-						<div>No subcategories</div>
-					{/each}
+					{#if topLevelCategories[categorie.id]}
+						<ul class="sub-menu">
+							{#each topLevelCategories[categorie.id] ?? [] as subCat (subCat.id)}
+								<li>
+									<a href={"/blog/" + subCat.slug}>
+										{subCat.name}
+									</a>
+								</li>
+							{:else}
+								<li>No subcategories</li>
+							{/each}
+						</ul>
+					{/if}
 				</li>
 			{/each}
-			<li class:active={$page.url.pathname === '/'}><a sveltekit:prefetch href="/">Home</a></li>
-			<li class:active={$page.url.pathname === '/about'}>
+
+			<li class:active={$page.url.pathname === "/about"}>
 				<a sveltekit:prefetch href="/about">About</a>
 			</li>
-			<li class:active={$page.url.pathname === '/todos'}>
+			<li class:active={$page.url.pathname === "/todos"}>
 				<a sveltekit:prefetch href="/todos">Todos</a>
 			</li>
 		</ul>
@@ -114,7 +125,7 @@
 
 	li.active::before {
 		--size: 6px;
-		content: '';
+		content: "";
 		width: 0;
 		height: 0;
 		position: absolute;
@@ -140,5 +151,23 @@
 
 	a:hover {
 		color: var(--accent-color);
+	}
+
+	.menu:hover .sub-menu {
+		display: flex;
+	}
+
+	.sub-menu {
+		display: none;
+		position: absolute;
+		flex-direction: column;
+		top: 3rem;
+		width: 100%;
+		height: auto;
+		z-index: 10;
+	}
+	
+	.sub-menu > li {
+		padding: 0.5em 0;
 	}
 </style>

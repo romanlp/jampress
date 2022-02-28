@@ -17,10 +17,15 @@ export function getBlogDetails() {
 	});
 }
  
-export function getCategories() {
-	return fetch(`${base}/wp-json/wp/v2/categories`, {
-		method: 'GET',
-	});
+export async function getCategories() {
+	const response = await fetch(`${base}/wp-json/wp/v2/categories`);
+	const data = (await response.json()).map(category => ({
+		id: category.id,
+		name: category.name,
+		slug: category.slug,
+		parent: category.parent,
+	}));	
+	return { status: response.status, data };
 }
 
 export async function getPosts() {
