@@ -18,7 +18,6 @@ console.log(blogDetails);
 </script>
 
 <script lang="ts">
-	import Counter from "$lib/Counter.svelte";
 	import { getBlogDetails, getPosts } from "./_wordpress.api";
 	export let articles: any;
 	export let blogDetails: any;
@@ -42,8 +41,6 @@ console.log(blogDetails);
 		<div class="content">{@html article.excerpt}</div>
 		<a href="blog/{article.slug}" class="readmore slide">Read more ⟶</a>
 	{/each}
-
-	<Counter />
 </section>
 
 <style>
