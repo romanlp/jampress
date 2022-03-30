@@ -23,7 +23,7 @@
 					class:active={$page.url.pathname ===
 						"/blog/" + categorie.slug}
 				>
-					<a href={"/blog/" + categorie.slug}>
+					<a href={"/?category=" + categorie.id}>
 						{categorie.name}
 					</a>
 
@@ -31,7 +31,7 @@
 						<ul class="sub-menu">
 							{#each topLevelCategories[categorie.id] ?? [] as subCat (subCat.id)}
 								<li>
-									<a href={"/blog/" + subCat.slug}>
+									<a href={"/?category=" + subCat.id}>
 										{subCat.name}
 									</a>
 								</li>
@@ -74,7 +74,6 @@
 		width: 100%;
 		padding: 0;
 		margin: 0;
-		height: 3em;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -112,7 +111,7 @@
 		display: flex;
 		height: 100%;
 		align-items: center;
-		padding: 0 1em;
+		padding: 1em 1em;
 		color: var(--heading-color);
 		font-weight: 700;
 		font-size: 0.8rem;

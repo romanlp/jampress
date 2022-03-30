@@ -1,8 +1,16 @@
 <script context="module" lang="ts">
 	/** @type {import('@sveltejs/kit').Load} */
-	export async function load({ params, fetch, session, stuff }) {
+	export async function load({ url }) {
+		let posts;
+		
+		if (url.searchParams.has('category')) {
+			console.log(url.searchParams.get('category'));
+			posts = await getPostsForCategory(url.searchParams.get('category'));
+		} else {
+			posts = await getPosts();
+		}
 		const blogDetails = await getBlogDetails();
-		const { status, data } = await getPosts();
+		const { status, data } = posts;
 		return {
 			status,
 			props: {
@@ -16,7 +24,7 @@
 </script>
 
 <script lang="ts">
-	import { getBlogDetails, getPosts } from "./_wordpress.api";
+	import { getBlogDetails, getPosts, getPostsForCategory } from "./_wordpress.api";
 	export let articles: any;
 	export let blogDetails: any;
 </script>

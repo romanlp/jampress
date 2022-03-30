@@ -39,6 +39,17 @@ export async function getPosts() {
 	return { status: response.status, data };
 }
 
+export async function getPostsForCategory(category: string) {
+	const response = await fetch(`${base}/wp-json/wp/v2/posts?categories=${category}`);
+	const data = (await response.json()).map((post) => ({
+		id: post.id,
+		slug: post.slug,
+		title: post.title.rendered,
+		excerpt: post.excerpt.rendered,
+	}));
+	return { status: response.status, data };
+}
+
 export async function getPost(slug: string) {
 	const response = await fetch(`${base}/wp-json/wp/v2/posts?slug=${slug}`);
 	const data = (await response.json()).map((post) => ({
