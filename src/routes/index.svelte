@@ -2,10 +2,10 @@
 	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ url }) {
 		let posts;
-		
-		if (url.searchParams.has('category')) {
-			console.log(url.searchParams.get('category'));
-			posts = await getPostsForCategory(url.searchParams.get('category'));
+
+		if (url.searchParams.has("category")) {
+			console.log(url.searchParams.get("category"));
+			posts = await getPostsForCategory(url.searchParams.get("category"));
 		} else {
 			posts = await getPosts();
 		}
@@ -19,10 +19,15 @@
 			},
 		};
 	}
+	export const prerender = true;
 </script>
 
 <script lang="ts">
-	import { getBlogDetails, getPosts, getPostsForCategory } from "./_wordpress.api";
+	import {
+		getBlogDetails,
+		getPosts,
+		getPostsForCategory,
+	} from "./_wordpress.api";
 	export let articles: any;
 	export let blogDetails: any;
 </script>
