@@ -59,3 +59,13 @@ export async function getPost(slug: string) {
 	}))[0];
 	return { status: response.status, data };
 }
+
+export async function getPage(slug: string) {
+	const response = await fetch(`${base}/wp-json/wp/v2/pages?slug=${slug}`);
+	const data = (await response.json()).map((post) => ({
+		id: post.id,
+		title: post.title.rendered,
+		content: post.content.rendered,
+	}))[0];
+	return { status: response.status, data };
+}
