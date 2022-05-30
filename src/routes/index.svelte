@@ -36,12 +36,10 @@
 </svelte:head>
 
 <section>
-	<h1>
-		<div class="welcome">
-			<div>{blogDetails?.name}</div>
-			<div>{blogDetails?.description}</div>
-		</div>
-	</h1>
+	<div class="welcome">
+		<h1>{blogDetails?.name}</h1>
+		<h3>{blogDetails?.description}</h3>
+	</div>
 
 	{#each articles as article (article.id)}
 		<h3>{@html article.title}</h3>
@@ -65,6 +63,7 @@
 
 	.welcome {
 		position: relative;
+		text-align: center;
 		width: 100%;
 		height: 0;
 		padding: 0 0 calc(100% * 495 / 2048) 0;
