@@ -1,23 +1,23 @@
 <script context="module" lang="ts">
-    /** @type {import('@sveltejs/kit').Load} */
-    export async function load({ params, fetch, session, stuff }) {
-        const {status, data} = await getCategories();
-		
+	/** @type {import('@sveltejs/kit').Load} */
+	export async function load({ params, fetch, stuff }) {
+		const { status, data } = await getCategories();
+
 		return {
 			status,
 			props: {
 				categories: data,
 			},
 		};
-    }
+	}
 
 	export const prerender = true;
 </script>
 
 <script lang="ts">
-	import Header from '$lib/header/Header.svelte';
-	import { getCategories } from './_wordpress.api';
-	import '../app.css';
+	import Header from "$lib/header/Header.svelte";
+	import { getCategories } from "./_wordpress.api";
+	import "../app.css";
 
 	export let categories = [];
 </script>
@@ -29,7 +29,7 @@
 </main>
 
 <footer>
-	<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+	<p>©</p>
 </footer>
 
 <style>

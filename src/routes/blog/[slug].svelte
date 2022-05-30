@@ -2,7 +2,7 @@
     import { getPost } from "../_wordpress.api";
 
     /** @type {import('@sveltejs/kit').Load} */
-    export async function load({ params, fetch, session, stuff }) {
+    export async function load({ params, fetch, stuff }) {
         const { status, data } = await getPost(params.slug);
 
         return {
