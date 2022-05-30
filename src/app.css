@@ -1,6 +1,6 @@
 :root {
-	--color-background: #222;
-	--color-text: #cacaca;
+	--color-background: rgb(250, 250, 250);
+	--color-text: rgb(10, 10, 10);
 	--primary-color: #316893;
 	--font-primary: "Montserrat", -apple-system, sans-serif;
 	--pure-white: #ffffff;
@@ -69,4 +69,9 @@ button:focus:not(:focus-visible) {
 	h1 {
 		font-size: 2.4rem;
 	}
+}
+
+figure {
+	margin: 1rem 0;
+	overflow-wrap: break-word;
 }
