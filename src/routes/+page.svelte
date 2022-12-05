@@ -1,27 +1,6 @@
-<script context="module" lang="ts">
-	/** @type {import('@sveltejs/kit').Load} */
-	export async function load({ url }) {
-		let posts;
-
-		if (url.searchParams.has("category")) {
-			console.log(url.searchParams.get("category"));
-			posts = await getPostsForCategory(url.searchParams.get("category"));
-		} else {
-			posts = await getPosts();
-		}
-		const blogDetails = await getBlogDetails();
-		const { status, data } = posts;
-		return {
-			status,
-			props: {
-				blogDetails: blogDetails.data,
-				articles: data,
-			},
-		};
-	}
-</script>
-
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	import {
 		getBlogDetails,
 		getPosts,

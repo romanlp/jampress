@@ -1,20 +1,6 @@
-<script context="module" lang="ts">
-	/** @type {import('@sveltejs/kit').Load} */
-	export async function load({ params, fetch, stuff }) {
-		const { status, data } = await getCategories();
-
-		return {
-			status,
-			props: {
-				categories: data,
-			},
-		};
-	}
-
-	export const prerender = true;
-</script>
-
 <script lang="ts">
+	throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+
 	import Header from "$lib/header/Header.svelte";
 	import { getCategories } from "./_wordpress.api";
 	import "../app.css";
