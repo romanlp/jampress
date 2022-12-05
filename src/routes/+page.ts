@@ -1,5 +1,7 @@
-/** @type {import('@sveltejs/kit').PageLoad} */
-export async function load({ url }) {
+import type { LayoutLoad } from './$types';
+import { getBlogDetails, getPosts, getPostsForCategory } from "./_wordpress.api";
+
+export const load: LayoutLoad = async ({ url }) => {
 	let posts;
 
 	if (url.searchParams.has("category")) {
@@ -10,12 +12,9 @@ export async function load({ url }) {
 	}
 	const blogDetails = await getBlogDetails();
 	const { status, data } = posts;
-	throw new Error("@migration task: Migrate this return statement (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292693)");
 	return {
 		status,
-		props: {
-			blogDetails: blogDetails.data,
-			articles: data,
-		},
+		blogDetails: blogDetails.data,
+		articles: data,
 	};
 }
